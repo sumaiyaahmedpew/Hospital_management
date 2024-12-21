@@ -1,0 +1,76 @@
+--SQL Queries:
+
+-- Write SQL queries to create the above tables, including PRIMARY KEY and FOREIGN KEY constraints.
+
+CREATE TABLE Departments (
+    DepartmentID INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(50) NOT NULL,
+    Location VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE Doctors (
+    DoctorID INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(100) NOT NULL,
+    Specialization VARCHAR(50) NOT NULL,
+    Phone VARCHAR(15) NOT NULL UNIQUE,
+    DepartmentID INT,
+    FOREIGN KEY (DepartmentID) REFERENCES Departments(DepartmentID)
+);
+
+CREATE TABLE Patients (
+    PatientID INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(100) NOT NULL,
+    Age INT NOT NULL,
+    Gender ENUM('Male', 'Female', 'Other') NOT NULL,
+    Phone VARCHAR(15) NOT NULL UNIQUE
+);
+
+CREATE TABLE Appointments (
+    AppointmentID INT AUTO_INCREMENT PRIMARY KEY,
+    Date DATE NOT NULL,
+    Time TIME NOT NULL,
+    Status ENUM('Scheduled', 'Completed', 'Cancelled') NOT NULL,
+    DoctorID INT,
+    PatientID INT,
+    FOREIGN KEY (DoctorID) REFERENCES Doctors(DoctorID),
+    FOREIGN KEY (PatientID) REFERENCES Patients(PatientID)
+);
+
+
+
+--- Add at least 5 dummy records for each table.
+
+INSERT INTO Departments (Name, Location) VALUES
+('Cardiology', 'Building A'),
+('Neurology', 'Building B'),
+('Orthopedics', 'Building C'),
+('Pediatrics', 'Building D'),
+('Radiology', 'Building E');
+
+
+INSERT INTO Doctors (Name, Specialization, Phone, DepartmentID) VALUES
+('Dr. Rafiqul alam', 'Cardiologist', '1234567890', 1),
+('Dr. Shamim Ahmed', 'Neurologist', '1234567891', 2),
+('Dr. Muniruzzaman', 'Orthopedic Surgeon', '1234567892', 3),
+('Dr. Shukanta Das', 'Pediatrician', '1234567893', 4),
+('Dr. Anowara begum', 'Radiologist', '1234567894', 5);
+
+
+INSERT INTO Patients (Name, Age, Gender, Phone) VALUES
+('Sumiaya', 22, 'Female', '9876543210'),
+('Tahsin', 18, 'Male', '9876543211'),
+('Pew', 45, 'Female', '9876543212'),
+('Rew', 35, 'Male', '9876543213'),
+('Nahin Fatema', 40, 'Female', '9876543214');
+
+
+INSERT INTO Appointments (Date, Time, Status, DoctorID, PatientID) VALUES
+('2024-12-22', '09:00:00', 'Scheduled', 1, 1),
+('2024-12-22', '10:30:00', 'Completed', 2, 2),
+('2024-12-23', '14:00:00', 'Cancelled', 3, 3),
+('2024-12-24', '11:00:00', 'Scheduled', 4, 4),
+('2024-12-25', '15:00:00', 'Scheduled', 5, 5);
+
+
+
+
